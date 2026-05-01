@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-Eleven × Webflow Enterprise | Executive Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--7e-green:#008061;
+--7e-green-dark:#006650;
+--7e-orange:#F7941D;
+--7e-red:#DA291C;
+--7e-dark:#0C1E1A;
+--7e-darker:#081512;
+--7e-light:#F8FAF9;
+--7e-white:#FFFFFF;
+--7e-gray:#6B7B76;
+--7e-gray-light:#E8EDEB;
+--7e-accent:#00A878;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;color:#1a2e28;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(12,30,26,0.92);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 40px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:18px}
+.nav-logo-img{height:22px;opacity:0.95}
+.nav-divider{width:1px;height:22px;background:rgba(255,255,255,0.12)}
+.nav-title{color:rgba(255,255,255,0.8);font-size:12px;font-weight:500;letter-spacing:0.2px}
+.nav-right{color:rgba(255,255,255,0.35);font-size:11px;font-weight:400}
+
+/* HERO — FULL WIDTH IMAGE */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,30,26,0.3) 0%,rgba(12,30,26,0.55) 40%,rgba(12,30,26,0.92) 75%,var(--7e-dark) 100%);z-index:1}
+.hero-inner{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:0 40px 72px;width:100%}
+.hero-stripe{display:flex;gap:3px;margin-bottom:28px}
+.hero-stripe span{height:3px;border-radius:2px}
+.hero-stripe span:nth-child(1){width:36px;background:var(--7e-orange)}
+.hero-stripe span:nth-child(2){width:36px;background:var(--7e-red)}
+.hero-stripe span:nth-child(3){width:36px;background:var(--7e-green)}
+.hero-7e-logo{height:48px;margin-bottom:24px;filter:brightness(0) invert(1);opacity:0.9}
+.hero h1{font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:800;color:#fff;line-height:1.12;max-width:800px;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--7e-orange)}
+.hero-sub{font-size:clamp(0.92rem,1.6vw,1.05rem);color:rgba(255,255,255,0.88);max-width:660px;line-height:1.72;margin-bottom:44px;font-weight:400}
+.hero-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:780px}
+.hero-metric{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:16px 18px;backdrop-filter:blur(8px)}
+.hero-metric .val{font-size:1.4rem;font-weight:800;color:var(--7e-orange);line-height:1.2}
+.hero-metric .label{font-size:10.5px;color:rgba(255,255,255,0.5);margin-top:3px;font-weight:500}
+
+/* SECTIONS */
+.section{padding:72px 40px}
+.section-inner{max-width:1140px;margin:0 auto}
+.section-dark{background:var(--7e-dark);color:#fff}
+.section-light{background:var(--7e-light)}
+.section-label{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--7e-orange);margin-bottom:10px}
+.section-title{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;line-height:1.18;margin-bottom:12px}
+.section-subtitle{font-size:0.95rem;color:var(--7e-gray);line-height:1.7;max-width:660px;margin-bottom:40px}
+.section-dark .section-subtitle{color:rgba(255,255,255,0.55)}
+.section-stripe{display:flex;gap:2px;margin-bottom:24px}
+.section-stripe span{height:2px;border-radius:1px}
+.section-stripe span:nth-child(1){width:24px;background:var(--7e-orange)}
+.section-stripe span:nth-child(2){width:24px;background:var(--7e-red)}
+.section-stripe span:nth-child(3){width:24px;background:var(--7e-green)}
+
+/* URGENCY */
+.urgency{background:var(--7e-orange);padding:0 40px}
+.urgency-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.urgency-item{padding:16px 20px;border-right:1px solid rgba(255,255,255,0.2)}
+.urgency-item:last-child{border-right:none}
+.urgency-item .val{font-size:0.86rem;font-weight:800;color:#fff}
+.urgency-item .label{font-size:10px;color:rgba(255,255,255,0.75);margin-top:2px;font-weight:400}
+
+/* AEO */
+.aeo-top{display:grid;grid-template-columns:100px 1fr;gap:28px;align-items:start;margin-bottom:28px}
+.score-ring{width:88px;height:88px;border-radius:50%;background:conic-gradient(var(--7e-orange) 0% 60%,var(--7e-gray-light) 60% 100%);display:flex;align-items:center;justify-content:center}
+.score-ring-inner{width:70px;height:70px;border-radius:50%;background:var(--7e-light);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.score-ring-inner .num{font-size:1.4rem;font-weight:900;color:var(--7e-dark);line-height:1}
+.score-ring-inner .den{font-size:0.6rem;color:var(--7e-gray);font-weight:600}
+.aeo-desc h3{font-size:1.1rem;font-weight:700;margin-bottom:5px}
+.aeo-desc p{font-size:0.86rem;color:var(--7e-gray);line-height:1.6}
+.aeo-chart{margin-bottom:24px;background:#fff;border-radius:12px;padding:24px;border:1px solid var(--7e-gray-light)}
+.aeo-row{display:grid;grid-template-columns:90px 1fr 40px;gap:10px;align-items:center;padding:9px 0}
+.aeo-row+.aeo-row{border-top:1px solid #f0f3f2}
+.aeo-row-label{font-size:0.8rem;font-weight:700;color:var(--7e-dark)}
+.aeo-bar-track{height:8px;background:#f0f3f2;border-radius:4px;position:relative}
+.aeo-bar-fill{height:8px;border-radius:4px;position:absolute;top:0;left:0;transition:width 0.6s ease}
+.aeo-bar-target{height:8px;border-radius:4px;position:absolute;top:0;left:0;border:1.5px dashed var(--7e-green);background:rgba(0,168,120,0.05)}
+.aeo-row-score{font-size:0.7rem;font-weight:700}
+.fill-content{background:var(--7e-orange);width:56%}
+.fill-technical{background:var(--7e-red);width:36%}
+.fill-authority{background:var(--7e-green);width:84%}
+.fill-measurement{background:var(--7e-red);width:24%}
+.target-content{width:80%}
+.target-technical{width:88%}
+.target-measurement{width:88%}
+.aeo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.aeo-card{background:#fff;border-radius:12px;padding:20px;border:1px solid var(--7e-gray-light);transition:transform 0.2s}
+.aeo-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.05)}
+.aeo-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.aeo-card-title{font-size:0.85rem;font-weight:700;color:var(--7e-dark)}
+.aeo-badge{padding:3px 9px;border-radius:100px;font-size:9.5px;font-weight:700}
+.badge-critical{background:#FEE2E2;color:#DC2626}
+.badge-medium{background:#FEF3C7;color:#D97706}
+.badge-strong{background:#D1FAE5;color:#059669}
+.aeo-card p{font-size:0.8rem;color:var(--7e-gray);line-height:1.6}
+.aeo-card .action{margin-top:8px;font-size:0.75rem;font-weight:600;color:var(--7e-green)}
+
+/* CALLOUT */
+.callout-box{background:linear-gradient(135deg,rgba(0,128,97,0.03),rgba(247,148,29,0.03));border-left:3px solid var(--7e-orange);border-radius:0 10px 10px 0;padding:18px 22px;margin:24px 0}
+.callout-box p{font-size:0.88rem;line-height:1.7;color:var(--7e-dark)}
+.callout-box strong{font-weight:800}
+
+/* STACK TABLE */
+.stack-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;border:1px solid var(--7e-gray-light)}
+.stack-table thead{background:var(--7e-dark)}
+.stack-table th{padding:11px 16px;text-align:left;font-size:10.5px;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:0.5px;text-transform:uppercase}
+.stack-table td{padding:10px 16px;font-size:0.8rem;border-bottom:1px solid #f0f3f2}
+.stack-table tr:last-child td{border-bottom:none}
+.stack-table tr:nth-child(even){background:#FAFCFB}
+.status-badge{padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:600;white-space:nowrap}
+.status-retain{background:#D1FAE5;color:#059669}
+.status-eval{background:#FEF3C7;color:#D97706}
+
+/* LEADERS */
+.leader-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.leader-card{background:#fff;border-radius:12px;padding:22px;border:1px solid var(--7e-gray-light);transition:transform 0.2s}
+.leader-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.05)}
+.leader-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.leader-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:0.9rem;flex-shrink:0}
+.leader-avatar.primary{background:linear-gradient(135deg,var(--7e-orange),var(--7e-red))}
+.leader-avatar.exec{background:linear-gradient(135deg,var(--7e-green),var(--7e-accent))}
+.leader-meta h4{font-size:0.86rem;font-weight:700;color:var(--7e-dark)}
+.leader-meta .role{font-size:0.72rem;color:var(--7e-gray);line-height:1.35}
+.leader-mandate{display:inline-block;padding:3px 8px;border-radius:5px;font-size:9.5px;font-weight:600;background:rgba(0,128,97,0.06);color:var(--7e-green);margin-bottom:8px}
+.leader-card p{font-size:0.8rem;color:#4a5e58;line-height:1.6}
+
+/* SECURITY */
+.security-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:28px}
+.sec-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:16px;text-align:center}
+.sec-card .icon{font-size:1.3rem;margin-bottom:5px}
+.sec-card h4{font-size:0.75rem;font-weight:700;color:#fff}
+.sec-card p{font-size:0.65rem;color:rgba(255,255,255,0.4);margin-top:2px}
+.sec-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.sec-feat{background:rgba(255,255,255,0.03);border-radius:8px;padding:12px}
+.sec-feat h4{font-size:0.75rem;color:var(--7e-orange);font-weight:700;margin-bottom:2px}
+.sec-feat p{font-size:0.7rem;color:rgba(255,255,255,0.4)}
+
+/* HORIZONTAL SCROLL */
+.scroll-section{padding:56px 0;overflow:hidden;background:#fff}
+.scroll-section .section-inner-pad{max-width:1140px;margin:0 auto;padding:0 40px}
+.scroll-track-wrap{position:relative;margin-top:28px}
+.scroll-track-wrap::before,.scroll-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.scroll-track-wrap::before{left:0;background:linear-gradient(90deg,#fff,transparent)}
+.scroll-track-wrap::after{right:0;background:linear-gradient(90deg,transparent,#fff)}
+.scroll-track{display:flex;gap:16px;animation:scrollX 40s linear infinite;width:max-content}
+.scroll-track:hover{animation-play-state:paused}
+@keyframes scrollX{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.scroll-card{flex-shrink:0;width:280px;background:var(--7e-light);border-radius:12px;padding:22px;border:1px solid var(--7e-gray-light)}
+.scroll-card .metric{font-size:1.7rem;font-weight:900;line-height:1.1}
+.scroll-card .metric.green{color:var(--7e-green)}
+.scroll-card .metric.orange{color:var(--7e-orange)}
+.scroll-card .company{font-size:0.72rem;font-weight:600;color:var(--7e-orange);margin-top:5px;text-transform:uppercase;letter-spacing:0.5px}
+.scroll-card .desc{font-size:0.78rem;color:var(--7e-gray);margin-top:6px;line-height:1.5}
+.logo-scroll-wrap{position:relative}
+.logo-scroll-wrap::before,.logo-scroll-wrap::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none}
+.logo-scroll-wrap::before{left:0;background:linear-gradient(90deg,#fff,transparent)}
+.logo-scroll-wrap::after{right:0;background:linear-gradient(90deg,transparent,#fff)}
+.logo-scroll{display:flex;gap:44px;align-items:center;animation:scrollLogos 22s linear infinite;width:max-content;padding:16px 0}
+.logo-scroll:hover{animation-play-state:paused}
+@keyframes scrollLogos{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.logo-scroll span{font-size:0.88rem;font-weight:700;color:#c0c8c5;letter-spacing:0.5px;white-space:nowrap;flex-shrink:0}
+
+/* CAPABILITY CARDS */
+.cap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
+.cap-card{background:#fff;border-radius:12px;padding:26px;border:1px solid var(--7e-gray-light);transition:transform 0.2s,box-shadow 0.2s}
+.cap-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.06)}
+.cap-card-num{font-size:1.8rem;font-weight:900;color:var(--7e-gray-light);line-height:1;margin-bottom:4px}
+.cap-card h3{font-size:0.98rem;font-weight:800;color:var(--7e-dark);margin-bottom:5px}
+.cap-tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:9.5px;font-weight:600;background:rgba(247,148,29,0.08);color:var(--7e-orange);margin-bottom:10px}
+.ba-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
+.ba-label.today{color:var(--7e-red)}
+.ba-label.webflow{color:var(--7e-green)}
+.ba-text{font-size:0.8rem;color:var(--7e-gray);line-height:1.55;margin-bottom:10px}
+.cap-card ul{list-style:none;padding:0}
+.cap-card ul li{font-size:0.78rem;color:#4a5e58;padding:3px 0 3px 15px;position:relative;line-height:1.4}
+.cap-card ul li::before{content:'→';position:absolute;left:0;color:var(--7e-orange);font-weight:700;font-size:0.72rem}
+
+/* PATHWAY */
+.pathway{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:36px;border-radius:10px;overflow:hidden}
+.pathway-phase{padding:15px;text-align:center}
+.pathway-phase:nth-child(1){background:var(--7e-green)}
+.pathway-phase:nth-child(2){background:var(--7e-green-dark)}
+.pathway-phase:nth-child(3){background:#005540}
+.pathway-phase:nth-child(4){background:#004030}
+.pathway-phase .phase-num{font-size:9.5px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase}
+.pathway-phase .phase-name{font-size:0.74rem;font-weight:700;color:#fff;margin-top:4px;line-height:1.25}
+.pathway-label{text-align:center;margin-top:8px;font-size:10.5px;font-weight:600;color:var(--7e-gray)}
+
+/* CHART */
+.chart-container{background:#fff;border-radius:12px;padding:24px;border:1px solid var(--7e-gray-light);margin:24px 0}
+.chart-title{font-size:0.88rem;font-weight:700;color:var(--7e-dark);margin-bottom:3px}
+.chart-note{font-size:0.7rem;color:var(--7e-gray);margin-bottom:16px;font-style:italic}
+
+/* PLATFORM */
+.plat-row{display:grid;grid-template-columns:170px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.06);align-items:start}
+.plat-row:last-child{border-bottom:none}
+.plat-service{font-size:0.8rem;font-weight:700;color:var(--7e-orange);padding-top:3px}
+.plat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.plat-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px;transition:border-color 0.2s}
+.plat-card:hover{border-color:var(--7e-orange);background:rgba(255,255,255,0.05)}
+.plat-card h4{font-size:0.78rem;font-weight:700;color:#fff;margin-bottom:5px}
+.plat-card p{font-size:0.72rem;color:rgba(255,255,255,0.42);line-height:1.5}
+.plat-card .outcome-tag{display:inline-block;margin-top:7px;padding:2px 7px;border-radius:100px;font-size:9px;font-weight:700;background:rgba(247,148,29,0.12);color:var(--7e-orange)}
+.chip-bar{display:flex;flex-wrap:wrap;gap:6px;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06)}
+.chip{padding:4px 11px;border-radius:100px;font-size:9.5px;font-weight:600;background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.07)}
+
+/* WHY BR */
+.br-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:36px}
+.br-stat{text-align:center;padding:18px 10px;background:var(--7e-light);border-radius:10px}
+.br-stat .val{font-size:1.4rem;font-weight:900;color:var(--7e-green);line-height:1.1}
+.br-stat .label{font-size:0.68rem;color:var(--7e-gray);margin-top:3px;font-weight:500}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.pillar{padding:20px;border-radius:10px;border:1px solid var(--7e-gray-light);background:#fff}
+.pillar h4{font-size:0.82rem;font-weight:700;color:var(--7e-dark);margin-bottom:4px}
+.pillar p{font-size:0.78rem;color:var(--7e-gray);line-height:1.55}
+
+/* CTA */
+.cta-section{background:var(--7e-dark);padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(247,148,29,0.06),transparent 70%)}
+.cta-section h2{font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:800;color:#fff;margin-bottom:12px;position:relative;z-index:1}
+.cta-section p{font-size:0.92rem;color:rgba(255,255,255,0.5);max-width:500px;margin:0 auto 32px;line-height:1.7;position:relative;z-index:1}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--7e-orange);color:#fff;padding:14px 34px;border-radius:100px;font-size:0.88rem;font-weight:700;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;position:relative;z-index:1}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(247,148,29,0.3)}
+
+/* FOOTER */
+.footer{background:var(--7e-darker);padding:28px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.04)}
+.footer p{font-size:0.72rem;color:rgba(255,255,255,0.28);line-height:1.8}
+.footer-logo{height:16px;opacity:0.3;margin-bottom:8px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-metrics{grid-template-columns:repeat(2,1fr)}
+  .urgency-inner{grid-template-columns:repeat(2,1fr)}
+  .aeo-grid{grid-template-columns:1fr}
+  .aeo-top{grid-template-columns:1fr}
+  .plat-row{grid-template-columns:1fr}
+  .plat-cards{grid-template-columns:1fr}
+  .br-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .nav{padding:0 16px;height:50px}
+  .nav-title{font-size:10.5px}
+  .hero{min-height:80vh}
+  .hero-inner{padding:0 20px 52px}
+  .section{padding:52px 20px}
+  .hero-metrics{grid-template-columns:1fr 1fr}
+  .urgency-inner{grid-template-columns:1fr}
+  .urgency-item{border-right:none;border-bottom:1px solid rgba(255,255,255,0.2)}
+  .leader-grid{grid-template-columns:1fr}
+  .cap-grid{grid-template-columns:1fr}
+  .pathway{grid-template-columns:repeat(2,1fr)}
+  .br-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-7e-logo{height:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-left">
+    <img src="bottle-rocket-logo.png" alt="Bottle Rocket" class="nav-logo-img">
+    <div class="nav-divider"></div>
+    <span class="nav-title">7-Eleven × Webflow Enterprise — Executive Brief</span>
+  </div>
+  <div class="nav-right">Prepared by Bottle Rocket</div>
+</nav>
+
+<!-- HERO — FULL WIDTH -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="7-eleven-hero.jpg" alt="7-Eleven store at dusk">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-stripe"><span></span><span></span><span></span></div>
+    <img src="7-eleven-logo.png" alt="7-Eleven" class="hero-7e-logo">
+    <h1>7-Eleven is transforming convenience retail. <em>Its digital infrastructure isn't keeping pace.</em></h1>
+    <p class="hero-sub">A North American IPO in H2 2026. 250+ new stores per year. A $1B delivery business. A marketing org rebuilt under a single digital leader — with no permanent CEO and no CMO. The transformation is real. 7-eleven.com scores 3/5 on AEO maturity. Webflow Enterprise closes the gap.</p>
+    <div class="hero-metrics">
+      <div class="hero-metric"><div class="val">3 / 5</div><div class="label">AEO Maturity Score</div></div>
+      <div class="hero-metric"><div class="val">97M</div><div class="label">Loyalty Members</div></div>
+      <div class="hero-metric"><div class="val">~$1B</div><div class="label">7NOW Delivery Target</div></div>
+      <div class="hero-metric"><div class="val">H2 2026</div><div class="label">Planned NA IPO</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urgency">
+  <div class="urgency-inner">
+    <div class="urgency-item"><div class="val">250+ Stores/Year</div><div class="label">New Standard openings accelerating</div></div>
+    <div class="urgency-item"><div class="val">No Permanent CEO</div><div class="label">Executive search underway</div></div>
+    <div class="urgency-item"><div class="val">CMO Eliminated</div><div class="label">Marketing under Chief Digital Officer</div></div>
+    <div class="urgency-item"><div class="val">45% Sales Lift</div><div class="label">New Standard vs. traditional stores</div></div>
+  </div>
+</div>
+
+<!-- AEO -->
+<section class="section section-light">
+  <div class="section-inner">
+    <span class="section-label">AEO Assessment</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">Where 7-eleven.com Stands Today</h2>
+
+    <div class="aeo-top">
+      <div class="score-ring"><div class="score-ring-inner"><div class="num">3</div><div class="den">out of 5</div></div></div>
+      <div class="aeo-desc">
+        <h3>Developing Maturity — Mid-Stage</h3>
+        <p>Strong authority foundation with critical gaps in structured data and AI traffic measurement. Both are directly solvable with Webflow Enterprise — and must be resolved before the IPO roadshow window.</p>
+      </div>
+    </div>
+
+    <div class="aeo-chart">
+      <div class="aeo-row">
+        <div class="aeo-row-label">Content</div>
+        <div class="aeo-bar-track"><div class="aeo-bar-target target-content"></div><div class="aeo-bar-fill fill-content"></div></div>
+        <div class="aeo-row-score" style="color:#D97706">Med-Hi</div>
+      </div>
+      <div class="aeo-row">
+        <div class="aeo-row-label">Technical</div>
+        <div class="aeo-bar-track"><div class="aeo-bar-target target-technical"></div><div class="aeo-bar-fill fill-technical"></div></div>
+        <div class="aeo-row-score" style="color:#DC2626">Critical</div>
+      </div>
+      <div class="aeo-row">
+        <div class="aeo-row-label">Authority</div>
+        <div class="aeo-bar-track"><div class="aeo-bar-fill fill-authority"></div></div>
+        <div class="aeo-row-score" style="color:#059669">Strong</div>
+      </div>
+      <div class="aeo-row">
+        <div class="aeo-row-label">Measurement</div>
+        <div class="aeo-bar-track"><div class="aeo-bar-target target-measurement"></div><div class="aeo-bar-fill fill-measurement"></div></div>
+        <div class="aeo-row-score" style="color:#DC2626">Critical</div>
+      </div>
+    </div>
+
+    <div class="aeo-grid">
+      <div class="aeo-card">
+        <div class="aeo-card-header"><span class="aeo-card-title">Content</span><span class="aeo-badge badge-medium">Medium-High</span></div>
+        <p>Content clusters for New Standard stores, 7NOW, 7Rewards, and private label are underdeveloped. AI engines default to third-party sources for 7-Eleven's growth stories.</p>
+        <div class="action">Build comprehensive content clusters →</div>
+      </div>
+      <div class="aeo-card">
+        <div class="aeo-card-header"><span class="aeo-card-title">Technical</span><span class="aeo-badge badge-critical">Critical</span></div>
+        <p>Schema markup absent across the site. Store locations, delivery, loyalty, and FAQs are invisible to AI citation engines. JS optimization and broken links compound the issue.</p>
+        <div class="action">Implement schema markup site-wide →</div>
+      </div>
+      <div class="aeo-card">
+        <div class="aeo-card-header"><span class="aeo-card-title">Authority</span><span class="aeo-badge badge-strong">Strong</span></div>
+        <p>Extensive media coverage, accurate Knowledge Panel, strong citation presence. The opportunity: publish original research and actively manage citations on authoritative reference sites.</p>
+        <div class="action">Protect and extend citation authority →</div>
+      </div>
+      <div class="aeo-card">
+        <div class="aeo-card-header"><span class="aeo-card-title">Measurement</span><span class="aeo-badge badge-critical">Critical</span></div>
+        <p>No visible LLM traffic tracking. AI-sourced delivery sign-ups, loyalty enrollments, and store visits are entirely unmeasured. For an IPO-bound company, this is the most significant gap.</p>
+        <div class="action">Deploy Webflow Analyze for LLM attribution →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label">Stack Analysis</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">What Changes, What Stays</h2>
+    <p class="section-subtitle">7-Eleven's Contentstack + Next.js + AWS foundation is fully preserved. Webflow Enterprise operates as the marketing publishing layer — a complement, not a replacement.</p>
+
+    <div class="callout-box">
+      <p><strong>Key distinction:</strong> 7-Eleven's modern architecture does not need wholesale replacement. Webflow manages the marketing content layer — campaigns, editorial, FAQ clusters, AEO publishing — while Next.js + Contentstack powers transactional flows. <strong>Both coexist, each doing what it does best.</strong></p>
+    </div>
+
+    <div style="overflow-x:auto">
+    <table class="stack-table">
+      <thead><tr><th>Layer</th><th>Current</th><th>Status</th><th>Migration Action</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CMS</strong></td><td>Contentstack</td><td><span class="status-badge status-eval">Complement</span></td><td>Retained for store/product/loyalty APIs; Webflow manages marketing content</td></tr>
+        <tr><td><strong>JS Framework</strong></td><td>React + Next.js 14.2</td><td><span class="status-badge status-eval">Retained</span></td><td>Powers transactional pages; Webflow manages marketing layer</td></tr>
+        <tr><td><strong>PaaS</strong></td><td>AWS</td><td><span class="status-badge status-retain">Retain</span></td><td>Infrastructure unaffected</td></tr>
+        <tr><td><strong>CDN / WAF</strong></td><td>Imperva + CloudFront</td><td><span class="status-badge status-retain">Retain</span></td><td>WAF retained; Webflow CDN for marketing content</td></tr>
+        <tr><td><strong>Security</strong></td><td>Imperva + PerimeterX</td><td><span class="status-badge status-retain">Retain</span></td><td>Bot management and WAF retained</td></tr>
+        <tr><td><strong>Analytics</strong></td><td>GA4 + GTM</td><td><span class="status-badge status-retain">Retain</span></td><td>Both integrate natively with Webflow</td></tr>
+        <tr><td><strong>Performance</strong></td><td>New Relic</td><td><span class="status-badge status-retain">Retain</span></td><td>RUM monitoring continues across environments</td></tr>
+        <tr><td><strong>JS Libraries</strong></td><td>AOS + Lodash</td><td><span class="status-badge status-eval">Evaluate</span></td><td>AOS → Webflow Interactions; Lodash retained</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.73rem;color:var(--7e-gray);margin-top:10px"><strong>Also retained, unchanged:</strong> Clarip (cookie compliance), Onsen UI (mobile), ServiceNow (internal workflows), Open Graph, Google Font API, Font Awesome</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section class="section section-light">
+  <div class="section-inner">
+    <span class="section-label">Leadership Impact</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">Mapped to 7-Eleven's Leadership Mandates</h2>
+    <p class="section-subtitle">Every named executive has a mandate that Webflow Enterprise directly serves — in the context of the transformation underway right now.</p>
+
+    <div class="leader-grid">
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar primary">RM</div><div class="leader-meta"><h4>Raghu Mahadevan</h4><div class="role">EVP, Chief Digital, Demand Chain & Marketing Officer</div></div></div>
+        <div class="leader-mandate">Primary Relationship · CEO Candidate</div>
+        <p>Now owns marketing, digital, loyalty, delivery, logistics, R&D, and retail media. A website requiring engineering dependency for content is a structural impediment across that entire mandate. Webflow Enterprise makes his unified team independent, fast, and AEO-ready.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar exec">SR</div><div class="leader-meta"><h4>Stan Reynolds</h4><div class="role">Interim Co-CEO (President)</div></div></div>
+        <div class="leader-mandate">IPO Readiness</div>
+        <p>Managing toward H2 2026 IPO with no permanent CEO and no CMO. Needs fast-executing decisions that improve IPO readiness without disruption. Webflow: capital-efficient, fast, zero impact to the existing stack.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar exec">DR</div><div class="leader-meta"><h4>Doug Rosencrans</h4><div class="role">Interim Co-CEO (COO)</div></div></div>
+        <div class="leader-mandate">Operational Continuity</div>
+        <p>Managing continuity through the most consequential transition in 7-Eleven's history. Webflow: demonstrable value, fast execution, zero disruption to tech infrastructure powering 13,000+ stores.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar exec">JS</div><div class="leader-meta"><h4>Jack Stout</h4><div class="role">EVP & Chief Merchandising Officer</div></div></div>
+        <div class="leader-mandate">Product & Store Innovation</div>
+        <p>Owns New Standard stores, 200+ private label items, QSR expansion — growth vectors needing AI-discoverable content. Webflow gives merchandising schema-tagged publishing at the pace of innovation.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar exec">TB</div><div class="leader-meta"><h4>Treasa Bowers</h4><div class="role">EVP, Chief People & Sustainability Officer</div></div></div>
+        <div class="leader-mandate">Employer Brand & Corp Comms</div>
+        <p>Absorbed corporate comms Jan. 2026 — Webflow lets employer brand and transformation content publish at news speed without engineering.</p>
+      </div>
+      <div class="leader-card">
+        <div class="leader-top"><div class="leader-avatar primary">SD</div><div class="leader-meta"><h4>Stephen Hayes Dacus</h4><div class="role">CEO, Seven & i Holdings</div></div></div>
+        <div class="leader-mandate">Global Transformation & IPO</div>
+        <p>Overseeing the Global Technology CoE and NA IPO — Webflow makes the digital brand story credible for the roadshow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <span class="section-label">Security & Governance</span>
+    <div class="section-stripe"><span></span><span style="background:rgba(255,255,255,0.25)"></span><span style="background:rgba(255,255,255,0.12)"></span></div>
+    <h2 class="section-title" style="color:#fff">Enterprise-Grade for an IPO-Bound Brand</h2>
+    <p class="section-subtitle">Webflow Enterprise meets the compliance, security, and governance standards 7-Eleven's regulatory environment and IPO readiness demand.</p>
+    <div class="security-grid">
+      <div class="sec-card"><div class="icon">🛡️</div><h4>SOC 2 Type II</h4><p>Certified</p></div>
+      <div class="sec-card"><div class="icon">🔒</div><h4>ISO 27001</h4><p>Info Security</p></div>
+      <div class="sec-card"><div class="icon">☁️</div><h4>ISO 27017</h4><p>Cloud Security</p></div>
+      <div class="sec-card"><div class="icon">🔐</div><h4>ISO 27018</h4><p>PII Protection</p></div>
+      <div class="sec-card"><div class="icon">🇪🇺</div><h4>GDPR</h4><p>Compliant</p></div>
+      <div class="sec-card"><div class="icon">⚡</div><h4>AWS + Cloudflare</h4><p>Global CDN</p></div>
+    </div>
+    <div class="sec-features">
+      <div class="sec-feat"><h4>SSO Integration</h4><p>Enterprise SSO for 7-Eleven's identity infrastructure</p></div>
+      <div class="sec-feat"><h4>RBAC Controls</h4><p>Role-based access across teams</p></div>
+      <div class="sec-feat"><h4>Audit Support</h4><p>Full logs for IPO/regulatory compliance</p></div>
+      <div class="sec-feat"><h4>CSP / HSTS</h4><p>Content Security & Strict Transport</p></div>
+      <div class="sec-feat"><h4>Version History</h4><p>Instant rollback with full control</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF — SCROLL -->
+<section class="scroll-section">
+  <div class="section-inner-pad">
+    <span class="section-label">Trusted by Enterprise</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">Global Brands Building on Webflow</h2>
+  </div>
+  <div class="logo-scroll-wrap" style="margin-top:20px">
+    <div class="logo-scroll">
+      <span>IDEO</span><span>Monday.com</span><span>BBDO</span><span>The New York Times</span><span>TED</span><span>DocuSign</span><span>Philips</span><span>Discord</span><span>NCR</span><span>Fivetran</span><span>Ramp</span><span>Linktree</span>
+      <span>IDEO</span><span>Monday.com</span><span>BBDO</span><span>The New York Times</span><span>TED</span><span>DocuSign</span><span>Philips</span><span>Discord</span><span>NCR</span><span>Fivetran</span><span>Ramp</span><span>Linktree</span>
+    </div>
+  </div>
+  <div class="scroll-track-wrap" style="margin-top:12px">
+    <div class="scroll-track">
+      <div class="scroll-card"><div class="metric green">63%</div><div class="company">Time-to-Publish Reduction</div><div class="desc">Marketing teams publish independently — freeing engineering from routine page builds.</div></div>
+      <div class="scroll-card"><div class="metric orange">10×</div><div class="company">Content Velocity</div><div class="desc">Faster publishing without engineering dependency — the velocity 7-Eleven needs for 250+ openings/year.</div></div>
+      <div class="scroll-card"><div class="metric green">99.99%</div><div class="company">Enterprise Uptime SLA</div><div class="desc">AWS + Cloudflare CDN — the reliability an IPO-bound brand's investor-facing content demands.</div></div>
+      <div class="scroll-card"><div class="metric orange">300K+</div><div class="company">Organizations on Webflow</div><div class="desc">From startups to the world's largest enterprises — Webflow powers experiences that drive growth.</div></div>
+      <div class="scroll-card"><div class="metric green">Zero</div><div class="company">Engineering Tickets</div><div class="desc">Every content update, campaign page, and FAQ ships without a single dev ticket.</div></div>
+      <div class="scroll-card"><div class="metric orange">First-Ever</div><div class="company">LLM Traffic Attribution</div><div class="desc">Webflow Analyze ties AI-driven traffic to delivery sign-ups and loyalty enrollment.</div></div>
+      <div class="scroll-card"><div class="metric green">63%</div><div class="company">Time-to-Publish Reduction</div><div class="desc">Marketing teams publish independently — freeing engineering from routine page builds.</div></div>
+      <div class="scroll-card"><div class="metric orange">10×</div><div class="company">Content Velocity</div><div class="desc">Faster publishing without engineering dependency — the velocity 7-Eleven needs for 250+ openings/year.</div></div>
+      <div class="scroll-card"><div class="metric green">99.99%</div><div class="company">Enterprise Uptime SLA</div><div class="desc">AWS + Cloudflare CDN — the reliability an IPO-bound brand's investor-facing content demands.</div></div>
+      <div class="scroll-card"><div class="metric orange">300K+</div><div class="company">Organizations on Webflow</div><div class="desc">From startups to the world's largest enterprises — Webflow powers experiences that drive growth.</div></div>
+      <div class="scroll-card"><div class="metric green">Zero</div><div class="company">Engineering Tickets</div><div class="desc">Every content update, campaign page, and FAQ ships without a single dev ticket.</div></div>
+      <div class="scroll-card"><div class="metric orange">First-Ever</div><div class="company">LLM Traffic Attribution</div><div class="desc">Webflow Analyze ties AI-driven traffic to delivery sign-ups and loyalty enrollment.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT MIGRATION UNLOCKS -->
+<section class="section section-light">
+  <div class="section-inner">
+    <span class="section-label">What Migration Unlocks</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">The Strategic Capabilities Bottle Rocket Scales Faster on Webflow Enterprise</h2>
+    <p class="section-subtitle">The platform removes the constraints slowing every initiative: engineering dependency, missing schema, absent LLM measurement, and content workflows that can't keep pace with 250+ store openings per year.</p>
+
+    <div class="chart-container">
+      <div class="chart-title">7NOW Delivery — How AEO-Optimized Content Accelerates AI Discovery</div>
+      <div class="chart-note">Illustrative projection: structured content and schema deployment improve AI engine citation of 7-Eleven's delivery services, driving incremental discovery and enrollment.</div>
+      <svg viewBox="0 0 700 190" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F7941D" stop-opacity="0.12"/><stop offset="100%" stop-color="#F7941D" stop-opacity="0"/></linearGradient>
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#008061" stop-opacity="0.1"/><stop offset="100%" stop-color="#008061" stop-opacity="0"/></linearGradient>
+        </defs>
+        <line x1="70" y1="20" x2="630" y2="20" stroke="#e8edeb" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="70" y1="55" x2="630" y2="55" stroke="#e8edeb" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="70" y1="90" x2="630" y2="90" stroke="#e8edeb" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="70" y1="125" x2="630" y2="125" stroke="#e8edeb" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="70" y1="158" x2="630" y2="158" stroke="#ccc" stroke-width="0.5"/>
+        <text x="8" y="24" font-family="Inter" font-size="8.5" fill="#6B7B76">High</text>
+        <text x="8" y="130" font-family="Inter" font-size="8.5" fill="#6B7B76">Low</text>
+        <text x="8" y="78" font-family="Inter" font-size="8" fill="#6B7B76">AI Discovery</text>
+        <text x="110" y="176" font-family="Inter" font-size="9" fill="#6B7B76" font-weight="600">Today</text>
+        <text x="270" y="176" font-family="Inter" font-size="9" fill="#6B7B76" font-weight="600">+3 Mo</text>
+        <text x="430" y="176" font-family="Inter" font-size="9" fill="#6B7B76" font-weight="600">+6 Mo</text>
+        <text x="570" y="176" font-family="Inter" font-size="9" fill="#6B7B76" font-weight="600">+12 Mo</text>
+        <!-- Without Webflow -->
+        <path d="M110,128 C190,124 320,116 430,110 C510,106 580,102 630,100" fill="none" stroke="#F7941D" stroke-width="2" stroke-linecap="round"/>
+        <path d="M110,128 C190,124 320,116 430,110 C510,106 580,102 630,100 L630,158 L110,158 Z" fill="url(#g1)"/>
+        <!-- With Webflow -->
+        <path d="M110,128 C190,112 280,80 370,52 C440,32 540,20 630,14" fill="none" stroke="#008061" stroke-width="2" stroke-linecap="round" stroke-dasharray="6,3"/>
+        <path d="M110,128 C190,112 280,80 370,52 C440,32 540,20 630,14 L630,100 C580,102 510,106 430,110 C320,116 190,124 110,128 Z" fill="url(#g2)"/>
+        <circle cx="110" cy="128" r="3.5" fill="#F7941D" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="630" cy="100" r="3.5" fill="#F7941D" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="630" cy="14" r="3.5" fill="#008061" stroke="#fff" stroke-width="1.5"/>
+        <rect x="536" y="88" width="88" height="16" rx="3" fill="#FEF3C7"/>
+        <text x="544" y="99" font-family="Inter" font-size="8" font-weight="700" fill="#D97706">Without Webflow</text>
+        <rect x="496" y="2" width="132" height="16" rx="3" fill="#D1FAE5"/>
+        <text x="502" y="13" font-family="Inter" font-size="7.5" font-weight="700" fill="#059669">Bottle Rocket + Webflow AEO</text>
+      </svg>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-card-num">01</div>
+        <h3>AI-Cited Authority at Scale</h3>
+        <div class="cap-tag">IPO Digital Readiness</div>
+        <div class="ba-label today">Today</div>
+        <div class="ba-text">AI engines default to third-party sources for 7-Eleven's biggest growth stories — New Standard stores, 7NOW, 7Rewards.</div>
+        <div class="ba-label webflow">With Bottle Rocket and Webflow</div>
+        <div class="ba-text">We build the content architecture that moves AEO from 3/5 toward 5/5 — structured FAQs, schema-tagged content, and a publishing cadence matching 250+ annual openings.</div>
+        <ul><li>Schema-tagged content for every growth vector</li><li>7-eleven.com becomes the AI-cited authority</li><li>Content freshness signals to AI crawlers</li></ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">02</div>
+        <h3>Immersive, Conversion-Optimized Experiences</h3>
+        <div class="cap-tag">New Standard Store Storytelling</div>
+        <div class="ba-label today">Today</div>
+        <div class="ba-text">45% higher sales stores with static, undifferentiated digital announcements.</div>
+        <div class="ba-label webflow">With Bottle Rocket and Webflow</div>
+        <div class="ba-text">We design interactive store pages with native Webflow animations — converting across consumer, franchisee, and investor audiences.</div>
+        <ul><li>Templatized launch pages at 250+/year pace</li><li>Interactive QSR, fresh food, and digital showcases</li><li>Marketing publishes without engineering</li></ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">03</div>
+        <h3>Winning the AI Search Battle vs. Casey's & Wawa</h3>
+        <div class="cap-tag">Competitive Discoverability</div>
+        <div class="ba-label today">Today</div>
+        <div class="ba-text">Schema-incomplete SEO — competitors fill the AI search vacuum around convenience retail queries.</div>
+        <div class="ba-label webflow">With Bottle Rocket and Webflow</div>
+        <div class="ba-text">Continuous technical SEO, schema maintenance, and closed-loop AEO measurement tying AI discovery to 7NOW sign-ups and loyalty enrollment.</div>
+        <ul><li>First-ever LLM revenue attribution via Webflow Analyze</li><li>Continuous schema optimization across all pages</li><li>Closed-loop: AI discovery → conversion → revenue</li></ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">04</div>
+        <h3>Segment-Driven Audience Experiences</h3>
+        <div class="cap-tag">97M Loyalty Members</div>
+        <div class="ba-label today">Today</div>
+        <div class="ba-text">One experience for all — franchisees, delivery users, loyalty members, and investors see identical content.</div>
+        <div class="ba-label webflow">With Bottle Rocket and Webflow</div>
+        <div class="ba-text">Webflow Optimize powers persona-driven experiences adapting to audience behavior and intent signals.</div>
+        <ul><li>Personalized paths per audience segment</li><li>A/B testing without engineering</li><li>Loyalty-driven content via dynamic CMS</li></ul>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">05</div>
+        <h3>Compliance-Grade Platform Governance</h3>
+        <div class="cap-tag">IPO & Enterprise Scale</div>
+        <div class="ba-label today">Today</div>
+        <div class="ba-text">Cross-team publishing without governance — version control and brand consistency aren't IPO-grade.</div>
+        <div class="ba-label webflow">With Bottle Rocket and Webflow</div>
+        <div class="ba-text">Brand component libraries, RBAC, and full audit trails — every team publishes on-brand, on-compliance.</div>
+        <ul><li>Shared components at enterprise scale</li><li>Role-based controls across all teams</li><li>Version history and audit for compliance</li></ul>
+      </div>
+    </div>
+
+    <div style="margin-top:40px">
+      <div class="pathway">
+        <div class="pathway-phase"><div class="phase-num">Phase 1</div><div class="phase-name">Webflow Enterprise Migration</div></div>
+        <div class="pathway-phase"><div class="phase-num">Phase 2</div><div class="phase-name">Content & SEO / AEO Program</div></div>
+        <div class="pathway-phase"><div class="phase-num">Phase 3</div><div class="phase-name">Design, Motion & Personalization</div></div>
+        <div class="pathway-phase"><div class="phase-num">Phase 4</div><div class="phase-name">Continuous Optimization & Growth</div></div>
+      </div>
+      <div class="pathway-label">Illustrative Engagement Pathway · High-Level View</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM × SERVICES -->
+<section class="section section-dark" style="background:var(--7e-darker)">
+  <div class="section-inner">
+    <span class="section-label">Webflow Platform × Bottle Rocket Services</span>
+    <div class="section-stripe"><span></span><span style="background:rgba(255,255,255,0.25)"></span><span style="background:rgba(255,255,255,0.12)"></span></div>
+    <h2 class="section-title" style="color:#fff">Every Capability, Powered by a Named Platform Feature</h2>
+    <p class="section-subtitle">For each Bottle Rocket service line, three Webflow Enterprise features make that capability deliverable at scale.</p>
+
+    <div class="plat-row">
+      <div class="plat-service">Strategy & Content</div>
+      <div class="plat-cards">
+        <div class="plat-card"><h4>Webflow CMS</h4><p>Marketing owns store pages, delivery clusters, and loyalty FAQs — independent of Contentstack's engineering layer.</p><div class="outcome-tag">Editorial Independence</div></div>
+        <div class="plat-card"><h4>Webflow Editor</h4><p>Real-time content updates — no tickets, no delays during the IPO window.</p><div class="outcome-tag">IPO-Speed Publishing</div></div>
+        <div class="plat-card"><h4>Webflow Localization</h4><p>Regional and bilingual content scales natively toward 1,300 new locations by 2030.</p><div class="outcome-tag">Regional Scale</div></div>
+      </div>
+    </div>
+    <div class="plat-row">
+      <div class="plat-service">Web Design & Motion</div>
+      <div class="plat-cards">
+        <div class="plat-card"><h4>Interactions & Animations</h4><p>Replaces AOS with native engine — richer motion, zero JS dependencies.</p><div class="outcome-tag">Performance Lift</div></div>
+        <div class="plat-card"><h4>Page Building</h4><p>Campaigns and landing pages in a visual canvas with shared brand components.</p><div class="outcome-tag">Campaign Velocity</div></div>
+        <div class="plat-card"><h4>Hosting (AWS + Cloudflare)</h4><p>99.99% uptime SLA — IPO-grade reliability.</p><div class="outcome-tag">Enterprise Reliability</div></div>
+      </div>
+    </div>
+    <div class="plat-row">
+      <div class="plat-service">Growth & Enablement</div>
+      <div class="plat-cards">
+        <div class="plat-card"><h4>Webflow SEO Controls</h4><p>Auto schema, sitemaps, and canonical URLs — no Next.js config needed.</p><div class="outcome-tag">Schema at Scale</div></div>
+        <div class="plat-card"><h4>Webflow Analyze</h4><p>First-ever LLM traffic tracking tied to 7NOW sign-ups and loyalty enrollment.</p><div class="outcome-tag">LLM Attribution</div></div>
+        <div class="plat-card"><h4>Clean Semantic HTML</h4><p>AI crawlers parse efficiently without JS rendering dependencies.</p><div class="outcome-tag">AI Crawlability</div></div>
+      </div>
+    </div>
+    <div class="plat-row">
+      <div class="plat-service">Personalization & CRO</div>
+      <div class="plat-cards">
+        <div class="plat-card"><h4>Webflow Optimize</h4><p>Content A/B testing across loyalty members, franchisees, and investors.</p><div class="outcome-tag">Conversion Testing</div></div>
+        <div class="plat-card"><h4>CMS + Dynamic Content</h4><p>Persona-driven messaging variations per audience segment.</p><div class="outcome-tag">Audience Segmentation</div></div>
+        <div class="plat-card"><h4>API Integration Layer</h4><p>Connects loyalty tiers, store data, and delivery coverage to the content layer.</p><div class="outcome-tag">Data Connectivity</div></div>
+      </div>
+    </div>
+    <div class="plat-row">
+      <div class="plat-service">Dev & Integrations</div>
+      <div class="plat-cards">
+        <div class="plat-card"><h4>Shared Libraries</h4><p>Brand component library ensuring consistency at 13,000+ store scale.</p><div class="outcome-tag">Brand Governance</div></div>
+        <div class="plat-card"><h4>Collaboration & Roles</h4><p>RBAC across marketing, merch, franchise, and corporate comms.</p><div class="outcome-tag">Team Governance</div></div>
+        <div class="plat-card"><h4>Version History</h4><p>Instant rollback with automatic backups and enterprise audit trails.</p><div class="outcome-tag">Audit Readiness</div></div>
+      </div>
+    </div>
+
+    <div class="chip-bar">
+      <div class="chip">Webflow CMS</div><div class="chip">Optimize</div><div class="chip">Analyze</div><div class="chip">Localization</div><div class="chip">SEO Controls</div><div class="chip">Shared Libraries</div><div class="chip">Interactions</div><div class="chip">Page Building</div><div class="chip">Roles</div><div class="chip">Version History</div><div class="chip">API Layer</div><div class="chip">AWS + Cloudflare</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY BOTTLE ROCKET -->
+<section class="section">
+  <div class="section-inner">
+    <span class="section-label">Why Bottle Rocket</span>
+    <div class="section-stripe"><span></span><span></span><span></span></div>
+    <h2 class="section-title">Why Bottle Rocket — 17+ Years, 1,100+ Specialists, and a Webflow Enterprise Partnership Built for This Moment</h2>
+    <p class="section-subtitle">Bottle Rocket brings deep cross-industry transformation expertise as a Webflow Enterprise partner — backed by the global scale of the WPP network and a proven track record with brands navigating exactly this kind of inflection point.</p>
+
+    <div class="br-stats">
+      <div class="br-stat"><div class="val">1,100+</div><div class="label">Global Specialists</div></div>
+      <div class="br-stat"><div class="val">200+</div><div class="label">Clients Served</div></div>
+      <div class="br-stat"><div class="val">1,000+</div><div class="label">Projects Delivered</div></div>
+      <div class="br-stat"><div class="val">17+</div><div class="label">Years</div></div>
+      <div class="br-stat"><div class="val">WPP</div><div class="label">Network</div></div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar"><h4>Experience Strategy & CX/EX</h4><p>Journey mapping and service design connecting 7-Eleven's 30M daily customers with digital touchpoints driving loyalty.</p></div>
+      <div class="pillar"><h4>Digital Product Innovation</h4><p>Apps with 4M first-month downloads to platforms managing 20M+ monthly data attributes.</p></div>
+      <div class="pillar"><h4>Enterprise Transformation & Cloud</h4><p>Platform modernization with LATAM delivery for cost-effective continuous optimization.</p></div>
+      <div class="pillar"><h4>Experience Optimization & Growth</h4><p>CRO, performance measurement, and growth ops turning Webflow into an ongoing revenue engine.</p></div>
+    </div>
+
+    <div class="callout-box" style="margin-top:28px">
+      <p><strong>Migration methodology:</strong> Discovery & Audit → Data Modeling → Design & Build → Content Migration & QA → Launch & Optimize. LATAM delivery model provides cost-effective scale from migration through continuous AEO growth.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="hero-stripe" style="justify-content:center;margin-bottom:24px;display:flex;gap:3px"><span style="height:3px;width:28px;border-radius:2px;background:var(--7e-orange)"></span><span style="height:3px;width:28px;border-radius:2px;background:var(--7e-red)"></span><span style="height:3px;width:28px;border-radius:2px;background:var(--7e-green)"></span></div>
+  <h2>We'd love to explore what's possible together.</h2>
+  <p style="font-size:0.88rem;color:rgba(255,255,255,0.45);max-width:580px;margin:0 auto 20px;line-height:1.7">Bottle Rocket has spent 17 years helping brands like Chick-fil-A, Caesars, and Vale turn digital infrastructure into measurable growth — with 1,100+ specialists, 1,000+ projects delivered, and the global scale of the WPP network behind every engagement.</p>
+  <p style="font-size:0.92rem;color:rgba(255,255,255,0.6);max-width:520px;margin:0 auto 36px;line-height:1.7">7-Eleven's IPO window makes this the right conversation at the right time.</p>
+  <a href="https://www.bottlerocketstudios.com/contact/" class="cta-btn">Let's Talk →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="bottle-rocket-logo.png" alt="Bottle Rocket" class="footer-logo">
+  <p>Prepared by Bottle Rocket · <a href="https://www.bottlerocketstudios.com" style="color:rgba(255,255,255,0.4);text-decoration:none">bottlerocketstudios.com</a></p>
+  <p>Confidential — prepared for the exclusive use of the intended recipients. © 2026 Bottle Rocket Studios. March 2026.</p>
+</footer>
+
+</body>
+</html>
