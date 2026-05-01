@@ -17,16 +17,11 @@ pam-pitch-builder/
 | 1 | Clone the repo |
 | 2 | Open `mvp-prototype/711-index.html` in a browser to view the prototype |
 
-## Project Info
+## Project Details
 
-| Key | Value |
-|-----|-------|
+| Name | Value |
+|------|-------|
 | Webflow Site ID | `69f4dc6b8ac97b00b3d21ab4` |
-
-## Dependencies
-
-| Name | URL |
-|------|-----|
 | Pitch Flow for Partners (Webflow) | https://pitchflow-for-partners.webflow.io/ |
 
 ## Notes
