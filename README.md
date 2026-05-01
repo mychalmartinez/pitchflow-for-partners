@@ -24,6 +24,7 @@ pam-pitch-builder/
 | Webflow Site ID | `69f4dc6b8ac97b00b3d21ab4` |
 | PitchFlow for Partners (Webflow) | https://pitchflow-for-partners.webflow.io/ |
 | Webflow AEO Assessment Tool | https://webflow.com/solutions/aeo |
+| Webflow llms.txt | https://webflow.com/llms.txt |
 
 ## Notes
 
