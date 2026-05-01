@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MAST Foundation — pitchflowforpartners</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 40px; max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 28px; margin-bottom: 4px; }
+    h2 { font-size: 20px; margin-top: 32px; margin-bottom: 12px; color: #ccc; }
+    .subtitle { color: #888; margin-bottom: 24px; font-size: 15px; }
+    .tokens { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .token { background: #1a1a1a; border: 1px solid #333; border-radius: 6px; padding: 6px 12px; display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    .swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #555; flex-shrink: 0; }
+    .copy-section { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; align-items: center; }
+    .copy-btn { border: none; border-radius: 6px; padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+    .copy-btn.primary { background: #146EF5; color: #1a1a1a; }
+    .copy-btn.primary:hover { filter: brightness(0.9); }
+    .copy-btn.success { background: #22c55e !important; color: white !important; }
+    .copy-btn.fail { background: #ef4444 !important; color: white !important; }
+    .copy-btn:disabled { opacity: 0.5; cursor: wait; }
+    .note { color: #666; font-size: 13px; margin-bottom: 24px; }
+    .divider { height: 1px; background: #333; margin: 32px 0; }
+    .page-info { display: flex; gap: 24px; margin-bottom: 8px; }
+    .page-info span { font-size: 13px; color: #888; }
+    .page-info strong { color: #ccc; }
+    .status { font-size: 12px; color: #888; }
+    .status.ok { color: #22c55e; }
+    .status.err { color: #ef4444; }
+    .warn-banner { background: #3b2506; border: 1px solid #7c4d12; border-radius: 8px; padding: 14px 20px; margin-bottom: 24px; font-size: 13px; color: #f5a623; display: none; }
+  </style>
+</head>
+<body>
+  <h1>MAST Foundation — pitchflowforpartners</h1>
+  <p class="subtitle">Branded Components + Styles pages ready to paste into Webflow Designer</p>
+
+  <div class="warn-banner" id="warn-banner">
+    ⚠️ This page must be served via HTTP for clipboard to work.
+    Run: <code>python3 -m http.server 8787</code> in the output directory, then open <code>http://localhost:8787</code>
+  </div>
+
+  <h2>Brand Tokens</h2>
+  <div class="tokens">
+    <div class="token"><div class="swatch" style="background:#146EF5"></div>primaryAccent: #146EF5</div>
+    <div class="token"><div class="swatch" style="background:#0F58C7"></div>primaryAccentDark: #0F58C7</div>
+    <div class="token"><div class="swatch" style="background:#FFAE13"></div>infoColor: #FFAE13</div>
+    <div class="token"><div class="swatch" style="background:#7A3DFF"></div>secondaryColor: #7A3DFF</div>
+    <div class="token"><div class="swatch" style="background:#D8D8D8"></div>borderLight: #D8D8D8</div>
+    <div class="token"><div class="swatch" style="background:#363636"></div>borderDark: #363636</div>
+    <div class="token"><div class="swatch" style="background:#080808"></div>textLight: #080808</div>
+    <div class="token"><div class="swatch" style="background:#FFFFFF"></div>textDark: #FFFFFF</div>
+    <div class="token"><div class="swatch" style="background:#FFFFFF"></div>bgLight: #FFFFFF</div>
+    <div class="token"><div class="swatch" style="background:#080808"></div>bgDark: #080808</div>
+    <div class="token">fontFamily: Inter</div>
+    <div class="token">borderRadius: 0.5rem</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>Components Page</h2>
+  <div class="page-info">
+    <span><strong>1,960</strong> nodes</span>
+    <span><strong>301</strong> styles</span>
+  </div>
+  <div class="copy-section">
+    <button class="copy-btn primary" id="btn-components" disabled>Loading...</button>
+    <span class="status" id="status-components"></span>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>Styles Page</h2>
+  <div class="page-info">
+    <span><strong>2,043</strong> nodes</span>
+    <span><strong>248</strong> styles</span>
+  </div>
+  <div class="copy-section">
+    <button class="copy-btn primary" id="btn-styles" disabled>Loading...</button>
+    <span class="status" id="status-styles"></span>
+  </div>
+
+  <p class="note">After copying, switch to Webflow Designer and press Cmd+V on the target page.</p>
+
+  <script>
+    // ─── Protocol check ─────────────────────────────────────────────
+    if (location.protocol === 'file:') {
+      document.getElementById('warn-banner').style.display = 'block';
+    }
+
+    // ─── State ──────────────────────────────────────────────────────
+    const xscpCache = {};
+
+    // ─── Fetch XSCP files (not embedded — keeps HTML small) ────────
+    async function loadXSCP(type) {
+      const statusEl = document.getElementById('status-' + type);
+      const btnEl = document.getElementById('btn-' + type);
+      const filename = type + '.xscp.json';
+
+      try {
+        statusEl.textContent = 'Loading ' + filename + '...';
+        const resp = await fetch(filename);
+        if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText);
+        const text = await resp.text();
+
+        // Validate it's real XSCP
+        const parsed = JSON.parse(text);
+        if (parsed.type !== '@webflow/XscpData') {
+          throw new Error('Not valid @webflow/XscpData');
+        }
+
+        xscpCache[type] = text; // Store raw JSON string (already stringified)
+        const sizeMB = (text.length / 1024 / 1024).toFixed(2);
+        statusEl.textContent = sizeMB + ' MB loaded';
+        statusEl.className = 'status ok';
+        btnEl.disabled = false;
+        btnEl.textContent = 'Copy ' + (type === 'components' ? 'Components' : 'Styles') + ' XSCP';
+      } catch (err) {
+        statusEl.textContent = 'Failed to load: ' + err.message;
+        statusEl.className = 'status err';
+        btnEl.textContent = 'Error';
+        console.error('Failed to load ' + filename, err);
+      }
+    }
+
+    // ─── Clipboard: execCommand + copy event interception ──────────
+    // This is the ONLY reliable way to put application/json on the clipboard.
+    // ClipboardItem API rejects non-standard MIME types.
+    // Must be triggered from a real user gesture (onclick).
+
+    function copyToClipboard(jsonString) {
+      return new Promise((resolve) => {
+        let intercepted = false;
+
+        function onCopy(e) {
+          e.preventDefault();
+          e.clipboardData.setData('application/json', jsonString);
+          e.clipboardData.setData('text/plain', jsonString);
+          intercepted = true;
+        }
+
+        document.addEventListener('copy', onCopy, true);
+
+        // Use a contenteditable div (more reliable than textarea across browsers)
+        const div = document.createElement('div');
+        div.contentEditable = true;
+        div.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0.01;';
+        div.textContent = 'xscp';
+        document.body.appendChild(div);
+
+        const range = document.createRange();
+        range.selectNodeContents(div);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        let success = false;
+        try {
+          success = document.execCommand('copy');
+        } catch (err) {
+          console.error('execCommand error:', err);
+        }
+
+        document.removeEventListener('copy', onCopy, true);
+        document.body.removeChild(div);
+        sel.removeAllRanges();
+
+        resolve(success && intercepted);
+      });
+    }
+
+    // ─── Button click handlers ──────────────────────────────────────
+    async function handleCopy(type) {
+      const btnEl = document.getElementById('btn-' + type);
+      const statusEl = document.getElementById('status-' + type);
+      const label = type === 'components' ? 'Components' : 'Styles';
+      const jsonString = xscpCache[type];
+
+      if (!jsonString) {
+        statusEl.textContent = 'Not loaded yet';
+        statusEl.className = 'status err';
+        return;
+      }
+
+      const ok = await copyToClipboard(jsonString);
+
+      if (ok) {
+        btnEl.textContent = label + ' copied! Paste in Webflow (Cmd+V)';
+        btnEl.classList.add('success');
+        statusEl.textContent = (jsonString.length / 1024 / 1024).toFixed(2) + ' MB on clipboard as application/json';
+        statusEl.className = 'status ok';
+        console.log(label + ' XSCP copied:', jsonString.length, 'chars');
+      } else {
+        btnEl.textContent = 'Copy failed';
+        btnEl.classList.add('fail');
+        statusEl.textContent = 'execCommand blocked — make sure this page is served via HTTP, not file://';
+        statusEl.className = 'status err';
+        console.error('Copy failed. Protocol:', location.protocol);
+      }
+
+      setTimeout(() => {
+        btnEl.textContent = 'Copy ' + label + ' XSCP';
+        btnEl.classList.remove('success', 'fail');
+      }, 4000);
+    }
+
+    // ─── Wire up buttons ────────────────────────────────────────────
+    document.getElementById('btn-components').addEventListener('click', () => handleCopy('components'));
+    document.getElementById('btn-styles').addEventListener('click', () => handleCopy('styles'));
+
+    // ─── Load both XSCP files on page load ──────────────────────────
+    loadXSCP('components');
+    loadXSCP('styles');
+  </script>
+</body>
+</html>

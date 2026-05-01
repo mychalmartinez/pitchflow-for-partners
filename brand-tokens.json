@@ -1,0 +1,16 @@
+{
+  "_brand": "pitchflow-for-partners",
+  "_notes": "MAST baseline using canonical Webflow brand values per brand.webflow.com/design-guidelines. Per-pitch CMS color fields override the four brand-themed token positions (Primary, Accent, Dark, Light) at hydration time. These defaults only show in the unhydrated state and on non-pitch project pages. Headings use Poppins Semibold (Google fallback for WF Visual Sans), body uses Inter Regular (Google fallback for WF Visual Sans Text). Skill creates a single FontFamily variable, so primary font is Inter; Poppins variable added manually as a follow-up after skill completes.",
+  "primaryAccent": "#146EF5",
+  "primaryAccentDark": "#0F58C7",
+  "infoColor": "#FFAE13",
+  "secondaryColor": "#7A3DFF",
+  "borderLight": "#D8D8D8",
+  "borderDark": "#363636",
+  "textLight": "#080808",
+  "textDark": "#FFFFFF",
+  "bgLight": "#FFFFFF",
+  "bgDark": "#080808",
+  "fontFamily": "Inter",
+  "borderRadius": "0.5rem"
+}
