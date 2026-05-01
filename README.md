@@ -18,7 +18,7 @@ Open `mvp-prototype/711-index.html` in a browser to view the current prototype.
 
 | Name | URL |
 |------|-----|
-| Pitch Flow for Partners (Webflow) | https://pitchflow-for-partners.design.webflow.com/ |
+| Pitch Flow for Partners (Webflow) | https://pitchflow-for-partners.webflow.io/ |
 
 ## Notes
 
