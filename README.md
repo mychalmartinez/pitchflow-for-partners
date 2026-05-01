@@ -1,4 +1,4 @@
-# PAM Pitch Builder
+# PitchFlow for Partners
 
 A pitch-building tool for client presentations.
 
