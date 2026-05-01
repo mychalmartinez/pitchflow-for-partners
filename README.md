@@ -14,6 +14,12 @@ pam-pitch-builder/
 
 Open `mvp-prototype/711-index.html` in a browser to view the current prototype.
 
+## Project Info
+
+| Key | Value |
+|-----|-------|
+| Webflow Site ID | `69f4dc6b8ac97b00b3d21ab4` |
+
 ## Dependencies
 
 | Name | URL |
