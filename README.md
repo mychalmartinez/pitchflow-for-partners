@@ -12,7 +12,10 @@ pam-pitch-builder/
 
 ## Getting Started
 
-Open `mvp-prototype/711-index.html` in a browser to view the current prototype.
+| Step | Action |
+|------|--------|
+| 1 | Clone the repo |
+| 2 | Open `mvp-prototype/711-index.html` in a browser to view the prototype |
 
 ## Project Info
 
