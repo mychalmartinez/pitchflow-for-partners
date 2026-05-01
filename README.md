@@ -14,6 +14,12 @@ pam-pitch-builder/
 
 Open `mvp-prototype/711-index.html` in a browser to view the current prototype.
 
+## Dependencies
+
+| Name | URL |
+|------|-----|
+| Pitch Flow for Partners (Webflow) | https://pitchflow-for-partners.design.webflow.com/ |
+
 ## Notes
 
 - Built with vanilla HTML, CSS, and JavaScript
