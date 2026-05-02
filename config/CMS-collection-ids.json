@@ -2,9 +2,9 @@
   "_notes": "Webflow-assigned collection IDs returned by the schema build. Required by the orchestrator skill at write time. Do not edit collection names; these are looked up by the orchestrator.",
   "siteId": "69f4dc6b8ac97b00b3d21ab4",
   "collections": {
-    "brandLeaders": null,
-    "capabilityCards": null,
-    "agencies": null,
-    "pitchPages": null
+    "brandLeaders": "69f54372e29470f9c1af93e8",
+    "capabilityCards": "69f5438dd5351357f57d33fb",
+    "agencies": "69f543b159a216c421ebe540",
+    "pitchPages": "69f543d6216b34eac6f90fe4"
   }
 }
